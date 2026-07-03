@@ -14,8 +14,29 @@ def expected_value(values, probabilities):
         sum1 += values[i] * probabilities[i]
     return sum1
 
-# Step 2 - one_reroll_die_value (not yet solved)
-# TODO: implement
+# Step 2 - one_reroll_die_value
+import numpy as np
+def one_reroll_die_value(sides):
+    # TODO: return {'value': expected winnings under optimal reroll policy, 'reroll_faces': sorted faces values = list(range(1, sides + 1))
+    values = list(range(1, sides + 1))
+    probabilities = [1/sides] * sides
+    expected_single_roll = expected_value(values, probabilities)
+
+    reroll_faces = []
+    total_expected = 0
+    for face in range(1, sides + 1):
+        if face < expected_single_roll:
+            # Reroll: expected value is expected_single_roll
+            total_expected += expected_single_roll
+            reroll_faces.append(face)
+        else:
+            # Keep: expected value is face
+            total_expected += face
+    
+    # Average over all possible first rolls
+    optimal_expected = total_expected / sides
+    
+    return {'value': optimal_expected, 'reroll_faces': reroll_faces}
 
 # Step 3 - pay_per_reroll_die_game (not yet solved)
 # TODO: implement
